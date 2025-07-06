@@ -63,10 +63,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('reports/project-summary', [ReportController::class, 'projectSummary'])->name('reports.project-summary');
     });
     
-    // File Downloads
-    Route::get('files/{file}/download', function(\App\Models\ProjectFile $file) {
-        return response()->download(storage_path('app/' . $file->file_path), $file->original_name);
-    })->name('files.download');
+    // File Management
+    Route::get('files/{file}/download', [App\Http\Controllers\FileController::class, 'download'])->name('files.download');
+    Route::post('files/upload', [App\Http\Controllers\FileController::class, 'upload'])->name('files.upload');
+    Route::delete('files/{file}', [App\Http\Controllers\FileController::class, 'destroy'])->name('files.destroy');
 });
 
 require __DIR__.'/auth.php';
